@@ -1,0 +1,146 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<style>
+    .rating {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .details {
+        padding: 2cm;
+        display: flex;
+        justify-content: space-between;
+    }
+    .amenities {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        width: 250px;
+        justify-content: space-between;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .uye-fiyati {
+        display: flex;
+        background-color: purple;
+        gap: 10px;
+        align-items: center;
+        padding-left: 10px;
+        border-radius: 10px;
+        width: 250px;
+    }
+    #iframe {
+        height: 400px;
+        width: 500px;
+    }
+
+    @media only screen and (max-width: 1050px) {
+        .details {
+            flex-direction: column;
+        }
+        #iframe {
+            width: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 650px) {
+        .details {
+            padding: 1cm;
+        }
+        .amenities {
+            width: 280px;
+        }
+    }
+
+    @media only screen and (max-width: 390px) {
+        #iframe {
+            height: 320px;
+        }
+    }
+</style>
+
+
+<div class="details">
+    <div>
+        <div style="display: flex; flex-direction: column;">
+            <h2>{{hotel.name}}</h2>
+            <p>{{hotel.title_description}}</p>
+            
+            {% if hotel.rating >= 9 %}
+            <div class="rating">
+                <p style="background-color: green; width: 30px; text-align:center; border-radius: 10px; font-size: 20px; color: white;">{{hotel.rating}}</p>
+                <p style="font-size: 20px; ">Olağanüstü</p>
+            </div>
+            
+            {% elif hotel.rating >= 7 %}
+            <div class="rating">
+                <p style="background-color: green; width: 30px; text-align: center; border-radius: 10px; font-size: 20px; color: white;">{{hotel.rating}}</p>
+                <p style="font-size: 20px;">İyi</p>
+            </div>
+            
+            {% elif hotel.rating >= 5 %}
+            <div class="rating">
+                <p style="background-color: yellow; width: 30px; text-align: center; border-radius: 10px; font-size: 20px;">{{hotel.rating}}</p>
+                <p style="font-size: 20px;">Orta</p>
+            </di>
+            
+            {% elif hotel.rating >= 3 %}
+            <div class="rating">
+                <p style="background-color: red; width: 30px; text-align: center; border-radius: 10px; font-size: 20px; color: white;">{{hotel.rating}}</p>
+                <p style="font-size: 20px;">Düşük</p>
+            </div>
+            
+            {% elif hotel.rating >= 0 %}
+            <div class="rating">
+                <p style="background-color: red; width: 30px; text-align: center; border-radius: 10px; font-size: 20px; color: white;">{{hotel.rating}}</p>
+                <p style="font-size: 20px;">Çok Düşük</p>
+            </div>
+            {% endif %}
+        
+            <a href="#">{{hotel.comment_quantity}} yorumun tümünü göster  ></a>
+        </div>
+        
+        <div class="amenities">
+            {% for amenity in amenities %}
+            <p><i class="fa-solid fa-check"></i>{{amenity}}</p>
+            {% endfor %}
+        </div>
+    
+        {% if request.user.is_authenticated %}
+        <div style="line-height: 5px;">
+            <div id="price" style="display: flex; gap: 10px;">
+                <p style="font-size: 20px;">{{hotel.discounted_price}}</p>
+                <p style="text-decoration: line-through; font-size: 17px;">{{ hotel.price }} TL</p>
+            </div>
+            <p>1 gece için</p>
+            <p>vergiler ve ücretler dahildir</p>
+        </div>
+        {% else %}
+        <div style="line-height: 5px;">
+            <p style="font-size: 20px;">{{ hotel.price }} TL</p>
+            <p>1 gece için</p>
+            <p>vergiler ve ücretler dahildir</p>
+            <br><br><br>
+            <div style="line-height: 5px;">
+                <div class="uye-fiyati" >
+                    <i class="fa-solid fa-ticket"></i>
+                    <p style="font-size: 15px; padding-top: 12px; color:white">Üye fiyatından yararlanılabilir</p>
+                </div>
+                <br><br>
+                <div style="height: 50px;">
+                    <button class="btn btn-outline-primary rounded-pill"><a href="/user/login" style="text-decoration: none; color: black;">Üye Fiyatı İçin Giriş Yapın</a></button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 50px;">
+        <iframe src="{{hotel.embed_link}}" frameborder="0" id="iframe"></iframe>
+        <a href="{{hotel.map_link}}">Haritada Göster  ></a>
+    </div>
+</div>
+
+{% endblock body %}
