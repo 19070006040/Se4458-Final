@@ -2,7 +2,8 @@
 ## Hotel Booking System
 
 ### Introduction:
-The hotel booking system is a web application designed to facilitate hotel reservation management. The users can search hotels by destination point, dates and number of people and they can book a hotel.
+The hotel booking system is a web application designed to facilitate hotel reservation management. The users can search hotels by destination point, dates and number of people. Users can book a hotel and manage their
+bookings.
 
 ### Design:
 The OtelRezervasyonAPI project employs a layered architecture to enhance modularity and maintainability. Its components include the Presentation Layer, where API controllers handle HTTP requests and responses, 
